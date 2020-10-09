@@ -35,13 +35,13 @@ class MappingExcelSheet(object):
                 return
 
     def parse_formula(self, formula):
-        formula = formula[1:] #lose the equal sign
+        formula = formula[1:]  # lose the equal sign
         if formula.contains('('):
-            formula_func = formula.split("(")[0] # Get sum or count or if
+            formula_func = formula.split("(")[0]  # Get sum or count or if
             if formula_func in self.excelformulas:
                 within_func = formula.split("(")[1].split(')')[0]
                 individual_cells = within_func.split(',')
-        individual_cells = re.split('; |, |\+|\n|\*|-|/',formula)
+        individual_cells = re.split('; |, |\+|\n|\*|-|/', formula)
 
     def convert_cells_to_df_locations(self, cells):
         pass
@@ -116,7 +116,7 @@ class ExcelTable(object):
         values = array([list(v) for v in sheet.values])
         min_i, min_j = cur_sheet_map.min_cell
         table.setColumnCount(len(values[0]) - min_j + 1)
-        table.setHorizontalHeaderLabels(values[min_i - 1, min_j -1:])
+        table.setHorizontalHeaderLabels(values[min_i - 1, min_j - 1:])
         table.setVerticalHeaderLabels(values[min_i - 1:, min_j - 1])
         table.setRowCount(len(values) - min_i + 1)
         for i in range(cur_sheet_map.min_cell[0], len(values)):
@@ -190,10 +190,10 @@ class ExcelTable(object):
                 value = old_name
                 if key == old_name:
                     table = [t for i, t in enumerate(self.tables)
-                              if self.tab.tabText(i) == sheet_key][0]
+                             if self.tab.tabText(i) == sheet_key][0]
                     if i == m_i:
                         t_value = table.horizontalHeaderItem(j - m_j).text().replace(old_name, new_name)
-                        table.horizontalHeaderItem(j-m_j).setText(t_value)
+                        table.horizontalHeaderItem(j - m_j).setText(t_value)
                     elif j == m_j:
                         t_value = table.indexWidget(table.model().index(
                             i - m_i - 1, 0)).text().replace(old_name, new_name)
@@ -272,13 +272,10 @@ class ExcelTable(object):
                 week_str = col_maps.get(col)
                 excel_sheet.cell(stagnant_row, col).value = week_str
                 for table in self.tables[1:-1]:
-                    week_item = table.item(stagnant_row - 1 - min_i, col-min_j)
+                    week_item = table.item(stagnant_row - 1 - min_i, col - min_j)
                     week_item.setText(week_str)
                 if col not in col_maps:
                     date_selected = date_selected.addDays(7)
-
-
-
 
         # for i, col in enumerate(range(7)):
         #     if col % 2 == 1:
@@ -370,7 +367,7 @@ def main_widget():
     cal.setGridVisible(True)
     cal.move(20, 20)
     cal.setVisible(False)
-    excel_path = r'F:\python excel code\support_roaster_format.xlsx'
+    excel_path = r'C:\Users\akhil\PycharmProjects\ExcelExtractor\support_roaster_format.xlsx'
     et = ExcelTable(win, cal, excel_path, tab, summary_sheet='Summary',
                     sheet_name='Prudents')
     cal.clicked.connect(et.show_date)
@@ -380,12 +377,12 @@ def main_widget():
 
     def file_save_as(args):
         filePath, _ = QFileDialog.getSaveFileName(win, "Export to Excel", "",
-            "Excel Workbook (*.xlsx);;Excel 97-2003 Workbook (*.xls);;CSV UTF-8 (Comma delimited) (*.csv)")
+                                                  "Excel Workbook (*.xlsx);;Excel 97-2003 Workbook (*.xls);;CSV UTF-8 (Comma delimited) (*.csv)")
         et.export_to_excel(filePath)
 
     def file_open(args):
         filePath, _ = QFileDialog.getOpenFileName(win, "Import from Excel", "",
-            "Excel Workbook (*.xlsx);;Excel 97-2003 Workbook (*.xls);;CSV UTF-8 (Comma delimited) (*.csv)")
+                                                  "Excel Workbook (*.xlsx);;Excel 97-2003 Workbook (*.xls);;CSV UTF-8 (Comma delimited) (*.csv)")
         et.import_from_excel(filePath)
 
     set_data_button = QPushButton("Set First Week")
@@ -416,4 +413,3 @@ if __name__ == '__main__':
     cal.clicked.connect(et.show_date)
     win.show()
     app.exec_()
-
