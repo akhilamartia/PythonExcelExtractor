@@ -418,7 +418,7 @@ def main_widget():
     cal.setGridVisible(True)
     cal.move(20, 20)
     cal.setVisible(False)
-    excel_path = r'F:\python excel code\support_roaster_format.xlsx'
+    excel_path = r'C:\Users\akhil\Downloads\support_roaster_format.xlsx'
     et = ExcelTable(win, cal, excel_path, tab, summary_sheet='Summary',
                     sheet_name='Prudents')
     cal.clicked.connect(et.show_date)
